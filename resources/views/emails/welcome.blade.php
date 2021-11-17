@@ -1,5 +1,5 @@
 @component('mail::message')
-# Welcome to our site
+# Hello to our site
 
 It's such a pleasure to have you over with us. Please click on the button below to verify your account and proceed with all our offers
 
