@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Mail\WelcomeMail;
+use Illuminate\Support\Facades\Mail;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,4 +17,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
+});
+
+//route for testing mail template
+Route::get('/email', function () {
+    Mail::to('mrfranktook@yahoo.com')->send(new WelcomeMail);
+    return new WelcomeMail;
 });
