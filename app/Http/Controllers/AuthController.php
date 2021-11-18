@@ -34,7 +34,7 @@ class AuthController extends Controller
         ];
         
         
-        // Mail::to($response, $user)->send(new WelcomeMail);
+        Mail::to($fields['email'])->send(new WelcomeMail);
         event(new Registered($user));
         return response($response, 201);
     }
