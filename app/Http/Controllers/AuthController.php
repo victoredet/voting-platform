@@ -23,6 +23,7 @@ class AuthController extends Controller
         $user = User::create([
             'name' => $fields['name'],
             'email' => $fields['email'],
+            'account' => 0,
             'password' => bcrypt($fields['password']),
 
         ]);
@@ -34,7 +35,7 @@ class AuthController extends Controller
         ];
         
         
-        Mail::to($fields['email'])->send(new WelcomeMail);
+       // Mail::to($fields['email'])->send(new WelcomeMail);
         event(new Registered($user));
         return response($response, 201);
     }

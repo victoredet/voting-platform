@@ -84,4 +84,9 @@ class AdminController extends Controller
     {
         return User::destroy($id);
     }
+
+    public function search($name)
+    {
+        return User::where('name', 'like', '%'.$name.'%')->get();
+    }
 }
