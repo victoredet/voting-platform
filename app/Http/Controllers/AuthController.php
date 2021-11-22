@@ -35,9 +35,19 @@ class AuthController extends Controller
         ];
         
         
-       // Mail::to($fields['email'])->send(new WelcomeMail);
+        Mail::to($fields['email'])->send(new WelcomeMail($user));
         event(new Registered($user));
         return response($response, 201);
+    }
+
+    public function verify(Request $request, $id)
+    {
+        $user = User::find($id);
+        User::where('id',$id)->update([
+            'email_verified_at'=>1
+        ]);
+       
+        return 'your account has been verified'      ;  
     }
 
     public function login(Request $request) {
@@ -52,7 +62,7 @@ class AuthController extends Controller
         // Check password
         if(!$user || !Hash::check($fields['password'], $user->password)) {
             return response([
-                'message' => 'Bad creds'
+                'message' => 'Bad credentails'
             ], 401);
         }
 

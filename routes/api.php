@@ -22,6 +22,7 @@ use Illuminate\Support\Facades\Route;
                     //auths
 Route::post('/register', [AuthController::class, 'register'] );
 Route::post('/login', [AuthController::class, 'login'] );
+Route::get('/email/{id}', [AuthController::class, 'verify'] );
 
 
 
