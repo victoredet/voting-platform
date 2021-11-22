@@ -2,12 +2,26 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use App\Models\Notification;
 use Illuminate\Http\Request;
 
-class AdminController extends Controller
+class NotificationController extends Controller
 {
+
+    public function fundNotification(Request $request, $id)
+    {
+        //validate request
+        $fields = $request;
+
+        return Notification::create([
+            'user_id' => $id,
+            'message' => 'Your account has been credited with'.$fields['amount'].'TCGs',
+            'account' => 0,
+            'password' => bcrypt($fields['password']),
+
+        ]);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -15,9 +29,10 @@ class AdminController extends Controller
      */
     public function index()
     {
-        return User::all();
+        return Notification::all();
     }
 
+   
     /**
      * Show the form for creating a new resource.
      *
@@ -47,9 +62,13 @@ class AdminController extends Controller
      */
     public function show($id)
     {
-        return User::find($id);
+        //
     }
 
+    public function userNotification($id)
+    {
+        return Notification::where('user_id',$id)->get();
+    }
     /**
      * Show the form for editing the specified resource.
      *
@@ -70,25 +89,7 @@ class AdminController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $User = User::find($id);
-        $User->update($request->all());
-        return $User;
-    }
-    //fund user
-    public function fund(Request $request, $id)
-    {
-        
-        $user = User::find($id);
-        // die($user['account']);
-        User::where('id',$id)->update([
-            'account'=>$user['account']+$request['account']
-        ]);
-
-        Notification::create([
-            'user_id'=>$request['user_id'],
-            'message'=>'You have been credited with '.number_format($request['account']).'TCGs'
-        ]);        
-        return $user;
+        //
     }
 
     /**
@@ -99,11 +100,6 @@ class AdminController extends Controller
      */
     public function destroy($id)
     {
-        return User::destroy($id);
-    }
-    
-    public function search($name)
-    {
-        return User::where('name', 'like', '%'.$name.'%')->get();
+        //
     }
 }

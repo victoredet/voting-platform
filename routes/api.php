@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\UserController;
@@ -18,6 +19,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 //public Routes
+                    //auths
 Route::post('/register', [AuthController::class, 'register'] );
 Route::post('/login', [AuthController::class, 'login'] );
 
@@ -29,11 +31,20 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     // Route::put('/products/{id}', [ProductController::class, 'update']);
     // Route::delete('/products/{id}', [ProductController::class, 'destroy']);
     // Route::post('/logout', [AuthController::class, 'logout']);
+    
+    
+    //user
     Route::get('/user/{id}', [UserController::class, 'show']);
+
+
+    //admin functions
     Route::get('/users', [AdminController::class, 'index']);
     Route::delete('/user/{id}', [AdminController::class, 'destroy']);
-    Route::put('/fund/{id}', [AdminController::class, 'update']);
+    Route::put('/fund/{id}', [AdminController::class, 'fund']);
 
+    //notifications
+    Route::get('/Admin-notifications', [NotificationController::class, 'index']);
+    Route::get('/notifications/{id}', [NotificationController::class, 'userNotification']);
 
 });
 
