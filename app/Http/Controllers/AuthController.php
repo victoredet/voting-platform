@@ -44,7 +44,7 @@ class AuthController extends Controller
     {
         $user = User::find($id);
         User::where('id',$id)->update([
-            'email_verified_at'=>1
+            'email_verified'=>'yes'
         ]);
        
         return 'your account has been verified'      ;  
