@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Campaigns;
@@ -9,12 +8,6 @@ use Illuminate\Http\Request;
 
 class CampaignController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-
      //admin campaign functions
     public function allCampaigns()
     {
@@ -40,9 +33,16 @@ class CampaignController extends Controller
     }
 
     //user campaign functions
-
-    public function createNewCampaign(){
-
+    public function createNewCampaign(Request $request, $id){
+        Campaign::create([
+            'user_id'=>$id,
+            'title'=>$request['title'],
+            'description'=>$request['description'],
+            'status'=>$request['status'],
+            'admin_status'=>$request['admin_status'],
+            'title'=>$request['title']
+        ]);
+        return Campaign::where('user_id',$id);
     }
     
     public function editCampaign(Request $request){
@@ -56,47 +56,7 @@ class CampaignController extends Controller
 
         //edit campaing details
     }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    
     public function destroy($id)
     {
         //

@@ -16,16 +16,16 @@ class AuthController extends Controller
     public function register(Request $request) {
         $fields = $request->validate([
             'name' => 'required|string',
+            'role' => 'required|string',
             'email' => 'required|string|unique:users,email',
             'password' => 'required|string|confirmed'
         ]);
 
         $user = User::create([
             'name' => $fields['name'],
+            'role' => $fields['role'],
             'email' => $fields['email'],
-            'account' => 0,
-            'password' => bcrypt($fields['password']),
-
+            'password' => bcrypt($fields['password'])
         ]);
         
         $token = $user-> createToken('myapptoken')->plainTextToken;
@@ -35,7 +35,7 @@ class AuthController extends Controller
         ];
         
         
-        Mail::to($fields['email'])->send(new WelcomeMail($user));
+        //Mail::to($fields['email'])->send(new WelcomeMail($user));
         event(new Registered($user));
         return response($response, 201);
     }
