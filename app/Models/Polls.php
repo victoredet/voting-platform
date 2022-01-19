@@ -8,4 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Polls extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        'user_id',
+        'title',
+        'description',
+        'admin_status',
+        'status',
+    ];
 }
