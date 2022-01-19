@@ -8,7 +8,8 @@ use Illuminate\Http\Request;
 
 class PollsController extends Controller
 {
-    //admin polls
+
+    //----admin polls-----//
     public function getAllPolls($id)
     {
         //check user
@@ -46,8 +47,29 @@ class PollsController extends Controller
         return Polls::all();
     }
 
+    //-----------user polls functions --------------//
+    public function createPoll(Request $request, $Id){
+        Polls::create([
+            'user_id'=>$id,
+            'title'=>$request['title'],
+            'description'=>$request['description'],
+            'status'=>'pending',
+            'admin_status'=>$request['admin_status']            
+        ]);
+    }
 
+    public function editPoll(Request $request, $Id){
+        Polls::where('id', $id)->update([
+            'title'=>$request['title'],
+            'description'=>$request['description'],
+            'status'=>$request['status'],
+        ]);
+    }
 
+    public function deletePoll(Request $request, $Id){
+        Polls::where('id', $id)->delete();
+        return 'delete successful';
+    }
 
 
 
@@ -64,4 +86,7 @@ class PollsController extends Controller
 
 
  
+
+
+
 }
