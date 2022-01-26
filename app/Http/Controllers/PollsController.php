@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 use App\Models\Polls;
 use App\Models\User;
 use App\Models\Contestant;
+use App\Models\PaidVote;
+use App\Models\Vote;
+
 
 use Illuminate\Http\Request;
 
@@ -47,6 +50,8 @@ class PollsController extends Controller
         return Polls::all();
     }
 
+
+    
     //-----------User polls functions --------------//
     public function createPoll(Request $request, $Id){
         Polls::create([
@@ -77,8 +82,11 @@ class PollsController extends Controller
 
     //contestant functions
     public function addContestant(Request $request, $id){
+        //check creator
+
         Contestant::create([
-            'poll_id'=>$id,
+            'creator_id'=>$id,
+            'poll_id'=>$request['poll_id'],
             'name'=>$request['name'],
             'vote_count'=>0,
             'status'=>'acitive'
@@ -86,38 +94,62 @@ class PollsController extends Controller
     }
 
     //vote for contestant
-    public function castVote(Request $request){
+    public function castFreeVote(Request $request){
         
-        $voter_id = $request['user_id'];
+        $voter = $request['voter'];
         $poll_id = $request['poll_id'];
         $contestant_id = $request['contestant_id'];
 
         //check if user has voted for the particular poll
-        $vote = Vote::where('voter',$voter_id)->where('poll_id', $poll_id)->get();
-        if($vote!=null){
+        $voted = Vote::where('voter',$voter)->where('poll_id', $poll_id)->get();
+        if($voted!=null){
             return 'you can only vote once!';
         }
 
         //cast vote
         Vote::create([
-            'voter' => $voter_id,
+            'voter' => $voter,
             'poll_id' => $poll_id,
             'contestant_id' => $contestant_id
         ]);
         return 'vote successful';
     }
 
+    public function castPaidVote(Request $request){
+        //i'm not sure if i should do this in the front end or backend
+        $price_per_vote = $request['price'];
+        $amount = $request['amount'];
+        $numb_of_votes = $request['numb_of_votes'];
+        $min_amount = $request['min_amount'];
+        $voter = $request['voter'];
+        $poll_id = $request['poll_id'];
+        $contestant_id =  $request['$contestant_id'];
+        $min_amount = $request['min_amount'];
 
+        //flutter wave people
 
+        //check success status
 
+        //get contestant
+        $contestant = Contestant::where('id',$contestant_id)->get(); 
 
+        //update contestant
+        Contestant::where('id', $contestant_id)->update([
+            'vote_count'=>$contestant['vote_count']+$numb_of_votes
+        ]);
 
+        //get poll 
+        $poll = Poll::where('id',$poll_id)->get();
+        //get user
+        $organiser = User::where('id',$poll['user_id'])->get();
 
+        //fund organiser
+        User::where('id',$poll['user_id'])->update([
+            'account'=> $organiser['account']+$amount
+        ]);
 
-
-
-
- 
+        return 'Transaction successful';
+    }
 
 
 

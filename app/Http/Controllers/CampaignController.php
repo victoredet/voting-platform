@@ -53,7 +53,6 @@ class CampaignController extends Controller
         if($request['user_id']!=$cam['user_id']){
             return 'cannot proceed. invalid user or campaign';
         }
-
         //edit campaing details
     }
     

@@ -25,6 +25,7 @@ class AuthController extends Controller
             'name' => $fields['name'],
             'role' => $fields['role'],
             'email' => $fields['email'],
+            'account' => 0,
             'password' => bcrypt($fields['password'])
         ]);
         
