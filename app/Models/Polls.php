@@ -11,6 +11,10 @@ class Polls extends Model
     protected $fillable = [
         'user_id',
         'title',
+        'start',
+        'end',
+        'price',
+        'pricing',
         'description',
         'admin_status',
         'status',

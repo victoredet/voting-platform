@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\PollsController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\UserController;
@@ -34,8 +35,19 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     // Route::post('/logout', [AuthController::class, 'logout']);
     
     
-    //user
+    //organisation user
     Route::get('/user/{id}', [UserController::class, 'show']);
+    Route::post('/create_poll', [PollsController::class, 'createPoll']);
+
+    //personal user
+
+
+
+
+
+
+
+
 
 
     //admin functions

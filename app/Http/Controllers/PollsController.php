@@ -57,6 +57,9 @@ class PollsController extends Controller
         Polls::create([
             'user_id'=>$id,
             'title'=>$request['title'],
+            'pricing'=>$request['pricing'],
+            'startDate'=>$request['startDate'],
+            'endDate'=>$request['endDate'],
             'description'=>$request['description'],
             'status'=>'pending',
             'admin_status'=>$request['admin_status']            
@@ -150,7 +153,5 @@ class PollsController extends Controller
 
         return 'Transaction successful';
     }
-
-
 
 }
