@@ -37,7 +37,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     
     //organisation user
     Route::get('/user/{id}', [UserController::class, 'show']);
-    Route::post('/create_poll', [PollsController::class, 'createPoll']);
+    Route::post('/create_poll/{id}', [PollsController::class, 'createPoll']);
 
     //personal user
 

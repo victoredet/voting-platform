@@ -18,14 +18,16 @@ class AuthController extends Controller
             'name' => 'required|string',
             'role' => 'required|string',
             'email' => 'required|string|unique:users,email',
+            'phone' => 'required|string|unique:users,phone',
             'password' => 'required|string|confirmed'
         ]);
 
         $user = User::create([
             'name' => $fields['name'],
-            'role' => $fields['role'],
+            'role' => 'admin',
             'email' => $fields['email'],
             'account' => 0,
+            'user_id' => md5($fields['email'].time()),
             'password' => bcrypt($fields['password'])
         ]);
         
@@ -78,7 +80,7 @@ class AuthController extends Controller
     }
 
     public function logout(Request $request) {
-        auth()->user()->tokens()->delete();
+       // auth()->user()->tokens()->delete();
 
         return [
             'message' => 'Logged out'

@@ -5,9 +5,7 @@ use App\Models\Polls;
 use App\Models\User;
 use App\Models\Contestant;
 use App\Models\PaidVote;
-use App\Models\Vote;
-
-
+ use App\Models\Votes;
 use Illuminate\Http\Request;
 
 class PollsController extends Controller
@@ -53,7 +51,7 @@ class PollsController extends Controller
 
     
     //-----------User polls functions --------------//
-    public function createPoll(Request $request, $Id){
+    public function createPoll(Request $request, $id){
         Polls::create([
             'user_id'=>$id,
             'title'=>$request['title'],
@@ -62,7 +60,7 @@ class PollsController extends Controller
             'endDate'=>$request['endDate'],
             'description'=>$request['description'],
             'status'=>'pending',
-            'admin_status'=>$request['admin_status']            
+            'admin_status'=>''            
         ]);
     }
 
@@ -94,6 +92,7 @@ class PollsController extends Controller
             'vote_count'=>0,
             'status'=>'acitive'
         ]);
+        return response(['msg'=>'poll created'],201);
     }
 
     //vote for contestant
@@ -104,13 +103,13 @@ class PollsController extends Controller
         $contestant_id = $request['contestant_id'];
 
         //check if user has voted for the particular poll
-        $voted = Vote::where('voter',$voter)->where('poll_id', $poll_id)->get();
+        $voted = Votes::where('voter',$voter)->where('poll_id', $poll_id)->get();
         if($voted!=null){
             return 'you can only vote once!';
         }
 
         //cast vote
-        Vote::create([
+        Votes::create([
             'voter' => $voter,
             'poll_id' => $poll_id,
             'contestant_id' => $contestant_id
@@ -118,40 +117,40 @@ class PollsController extends Controller
         return 'vote successful';
     }
 
-    public function castPaidVote(Request $request){
-        //i'm not sure if i should do this in the front end or backend
-        $price_per_vote = $request['price'];
-        $amount = $request['amount'];
-        $numb_of_votes = $request['numb_of_votes'];
-        $min_amount = $request['min_amount'];
-        $voter = $request['voter'];
-        $poll_id = $request['poll_id'];
-        $contestant_id =  $request['$contestant_id'];
-        $min_amount = $request['min_amount'];
+    // public function castPaidVote(Request $request){
+    //     //i'm not sure if i should do this in the front end or backend
+    //     $price_per_vote = $request['price'];
+    //     $amount = $request['amount'];
+    //     $numb_of_votes = $request['numb_of_votes'];
+    //     $min_amount = $request['min_amount'];
+    //     $voter = $request['voter'];
+    //     $poll_id = $request['poll_id'];
+    //     $contestant_id =  $request['$contestant_id'];
+    //     $min_amount = $request['min_amount'];
 
-        //flutter wave people
+    //     //flutter wave people
 
-        //check success status
+    //     //check success status
 
-        //get contestant
-        $contestant = Contestant::where('id',$contestant_id)->get(); 
+    //     //get contestant
+    //     $contestant = Contestant::where('id',$contestant_id)->get(); 
 
-        //update contestant
-        Contestant::where('id', $contestant_id)->update([
-            'vote_count'=>$contestant['vote_count']+$numb_of_votes
-        ]);
+    //     //update contestant
+    //     Contestant::where('id', $contestant_id)->update([
+    //         'vote_count'=>$contestant['vote_count']+$numb_of_votes
+    //     ]);
 
-        //get poll 
-        $poll = Poll::where('id',$poll_id)->get();
-        //get user
-        $organiser = User::where('id',$poll['user_id'])->get();
+    //     //get poll 
+    //     $poll = Poll::where('id',$poll_id)->get();
+    //     //get user
+    //     $organiser = User::where('id',$poll['user_id'])->get();
 
-        //fund organiser
-        User::where('id',$poll['user_id'])->update([
-            'account'=> $organiser['account']+$amount
-        ]);
+    //     //fund organiser
+    //     User::where('id',$poll['user_id'])->update([
+    //         'account'=> $organiser['account']+$amount
+    //     ]);
 
-        return 'Transaction successful';
-    }
+    //     return 'Transaction successful';
+    // }
 
 }
