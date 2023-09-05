@@ -28,4 +28,12 @@ Route::get('/sign-up', function () {
     return view('auth.register');
 });
 
+//voters pages
+
+
+//dashboard links
+Route::get('/dashboard', function () {
+    return view('dashboard.dashboard');
+});
+
 
