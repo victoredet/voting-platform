@@ -3,16 +3,12 @@
 @section('dashLayout')
 
 <section class="contact">
-
-      <div class="container py-4" data-aos="fade-up">
-
+    <div class="container py-4" data-aos="fade-up">
         <header class="section-header">
-          <p>Dash </p>
+            <p>Dash </p>
         </header>
+    </div>
 
-      
-      </div>
+</section>
 
-    </section>
-
-    @endsection
+@endsection

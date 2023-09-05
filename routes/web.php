@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Mail\WelcomeMail;
+use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Mail;
 
 /*
@@ -19,6 +20,9 @@ Route::get('/', function () {
     return view('home.home');
 });
 
+Route::post('/register', [AuthController::class, 'register']);
+Route::post('/login', [AuthController::class, 'login']);
+
 
 Route::get('/sign-in', function () {
     return view('auth.login');
@@ -35,5 +39,3 @@ Route::get('/sign-up', function () {
 Route::get('/dashboard', function () {
     return view('dashboard.dashboard');
 });
-
-
