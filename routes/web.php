@@ -18,9 +18,3 @@ use Illuminate\Support\Facades\Mail;
 Route::get('/', function () {
     return view('welcome');
 });
-
-//route for testing mail template
-Route::get('/email', function () {
-    Mail::to('mrfranktook@yahoo.com')->send(new WelcomeMail);
-    return new WelcomeMail;
-});
