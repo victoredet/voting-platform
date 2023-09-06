@@ -1,8 +1,11 @@
 <?php
 
+use App\Http\Middleware\CheckLogin;
 use Illuminate\Support\Facades\Route;
 use App\Mail\WelcomeMail;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\Hooks;
 use Illuminate\Support\Facades\Mail;
 
 /*
@@ -32,10 +35,7 @@ Route::get('/sign-up', function () {
     return view('auth.register');
 });
 
-//voters pages
-
-
-//dashboard links
-Route::get('/dashboard', function () {
-    return view('dashboard.dashboard');
+// guarded routes 
+Route::middleware([CheckLogin::class])->group(function () {
+    Route::get('/dashboard', [UserController::class, 'dashboardPage']);
 });
